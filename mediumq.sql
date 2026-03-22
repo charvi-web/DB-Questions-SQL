@@ -82,3 +82,15 @@ ORDER BY birth_date
 select CONCAT(upper(last_name),',',lower(first_name)) AS new_name_format
 FROM patients
 order by first_name DESC;
+
+
+
+select
+  province_id,
+  SUM(height) AS sum_height
+FROM patients
+group by province_id
+HAVING sum_height >= 7000
+
+
+
