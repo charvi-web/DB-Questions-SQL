@@ -32,6 +32,53 @@ order by
 
 
 
+SELECT
+  patient_id,
+  diagnosis
+from admissions
+group by patient_id,diagnosis
+HAVING COUNT(*) > 1
 
 
-  
+
+SELECT city,COUNT(*) AS num_patients FROM patients GROUP BY
+city order by num_patients DESC, city ASC
+
+
+
+
+SELECT
+  first_name,
+  last_name,
+  'Patient' AS role
+FROM patients
+union all
+SELECT
+  first_name,
+  last_name,
+  'Doctor' AS role
+FROM doctors
+
+
+SELECT allergies,COUNT(*) AS total_diagnosis FROM patients WHERE
+allergies IS NOT NULL 
+GROUP BY allergies 
+order by total_diagnosis DESC;
+
+
+
+
+SELECT
+  first_name,
+  last_name,
+  birth_date
+FROM patients
+where YEAR(birth_date) BETWEEN 1970 AND 1979
+ORDER BY birth_date
+
+
+
+
+select CONCAT(upper(last_name),',',lower(first_name)) AS new_name_format
+FROM patients
+order by first_name DESC;
