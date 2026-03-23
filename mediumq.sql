@@ -94,3 +94,91 @@ HAVING sum_height >= 7000
 
 
 
+SELECT
+  MAX(weight) - MIN(weight) AS weight_delta
+FROM patients
+where last_name = 'Maroni'
+
+
+
+SELECT day(admission_date),
+COUNT(*) AS number_of_admissions
+from admissions
+group by day(admission_date)
+order by number_of_admissions DESC;
+
+
+
+select *
+FROM admissions
+where patient_id = 542
+order by admission_date DESC
+LIMIT 1;
+
+
+
+
+
+
+
+SELECT
+  patient_id,
+  attending_doctor_id,
+  diagnosis
+FROM admissions
+WHERE
+  (
+    patient_id % 2 = 1
+    AND attending_doctor_id IN (1, 5, 19)
+  )
+  OR (
+    attending_doctor_id LIKE '%2%'
+    AND LENGTH(patient_id) = 3
+  )
+
+
+  
+
+
+  select
+  first_name,
+  last_name,
+  count(*) AS admissions_total
+FROM admissions A
+  JOIN doctors D ON A.attending_doctor_id = D.doctor_id
+group by
+  D.first_name,
+  D.last_name
+
+
+
+
+  SELECT
+  D.doctor_id,
+  CONCAT(first_name, ' ', last_name) AS full_name,
+  MIN(admission_date) AS first_admission_date,
+  MAX(admission_date) AS last_admission_date
+FROM doctors D
+  JOIN admissions A ON A.attending_doctor_id = D.doctor_id
+group by A.attending_doctor_id
+
+
+
+SELECT
+  R.province_name,
+  COUNT(*) AS patient_count
+FROM patients P
+  JOIN province_names R ON P.province_id = R.province_id
+GROUP BY R.province_name
+order by patient_count DESC;
+
+
+
+
+SELECT
+  CONCAT(P.first_name, ' ', P.last_name) AS patient_name,
+  A.diagnosis,
+  CONCAT(D.first_name, ' ', D.last_name) AS doctor_name
+FROM admissions A
+  JOIN patients P ON P.patient_id = A.patient_id
+  JOIN doctors D ON A.attending_doctor_id = D.doctor_id
