@@ -182,3 +182,50 @@ SELECT
 FROM admissions A
   JOIN patients P ON P.patient_id = A.patient_id
   JOIN doctors D ON A.attending_doctor_id = D.doctor_id
+
+
+
+
+
+
+select
+  first_name,
+  last_name,
+  COUNT(*) AS num_of_duplicates
+FROM patients
+group by
+  first_name,
+  last_name
+HAVING num_of_duplicates > 1
+
+
+
+
+select
+  CONCAT(first_name, ' ', last_name) AS patient_name,
+  round(height / 30.48,1),
+  ROUND(weight * 2.205,0),
+  birth_date,
+  (
+    CASE
+      WHEN gender = 'M' THEN 'MALE'
+      ELSE 'FEMALE'
+    END
+  ) AS gender_type
+FROM patients
+
+
+
+
+
+
+
+select
+  patient_id,
+  first_name,
+  last_name
+FROM patients
+WHERE patient_id NOT IN (
+    SELECT admissions.patient_id
+    FROM admissions
+  )
