@@ -229,3 +229,42 @@ WHERE patient_id NOT IN (
     SELECT admissions.patient_id
     FROM admissions
   )
+
+
+
+
+
+
+
+
+  select
+  MAX(N) AS max_visits,
+  MIN(N) AS min_visits,
+  ROUND(AVG(N), 2) AS average_visits
+FROM (
+    select COUNT(*) AS N
+    FROM admissions
+    group by admission_date
+  )
+
+
+
+
+
+
+
+  select
+  CONCAT(P.first_name, ' ', P.last_name) AS patient_name,
+  A.admission_date,
+  concat(D.first_name, ' ', D.last_name) AS doctor_name
+FROM admissions A
+  JOIN patients P ON P.patient_id = A.patient_id
+  JOIN doctors D ON A.attending_doctor_id = D.doctor_id
+where (A.patient_id, A.admission_date) IN (
+    select
+      patient_id,
+      MAX(admission_date)
+    FROM admissions
+    group by patient_id
+  )
+order by A.admission_date DESC;
