@@ -139,3 +139,67 @@ select
   'suppliers' AS relationship 
 FROM suppliers
 
+
+
+
+
+
+
+select
+  year(order_date) AS order_year,
+  month(order_date) AS order_month,
+  COUNT(order_id) AS no_of_orders
+FROM orders
+group by
+  year(order_date),
+  month(order_date)
+
+
+
+
+
+
+
+
+
+
+  -- HARD
+  select
+  E.first_name,
+  E.last_name,
+  count(O.order_id) AS num_orders,
+  (
+    CASE
+      WHEN O.shipped_date <= O.required_date THEN "On Time"
+      WHEN O.shipped_date > O.required_date THEN "Late"
+      WHEN O.shipped_date IS NULL THEN "Not Shipped"
+    END
+  ) AS shipped
+FROM employees E
+  JOIN orders O ON E.employee_id = O.employee_id
+group by
+  E.first_name,
+  E.last_name, shipped
+order by
+  E.last_name,
+  E.first_name,
+  num_orders DESC
+
+
+
+
+
+
+
+
+  select
+  YEAR(O.order_date) AS order_year,
+  ROUND(
+    SUM(P.unit_price * OD.quantity * OD.discount),
+    2
+  ) AS discount_amount
+FROM orders O
+  JOIN order_details OD ON O.order_id = OD.order_id
+  JOIN products P ON P.product_id = OD.product_id
+group by YEAR(O.order_date)
+order by YEAR(O.order_date) DESC
