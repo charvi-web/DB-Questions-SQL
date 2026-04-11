@@ -103,5 +103,39 @@ FROM products
 
 
 -- MEDIUM
+select
+  P.product_name AS product_name,
+  S.company_name AS company_name,
+  C.category_name AS category_name
+FROM products P
+  JOIN categories C ON P.category_id = C.category_id
+  JOIN suppliers S ON P.supplier_id = S.supplier_id
 
+
+
+
+
+  select
+  C.category_name,
+  ROUND(avg(P.unit_price),2) AS average_unit_price
+FROM categories C
+  JOIN products P ON C.category_id = P.category_id
+group by C.category_name
+
+
+
+select
+  city,
+  company_name,
+  contact_name,
+  'customers' AS relationship 
+FROM customers 
+
+union
+select
+  city,
+  company_name,
+  contact_name,
+  'suppliers' AS relationship 
+FROM suppliers
 
