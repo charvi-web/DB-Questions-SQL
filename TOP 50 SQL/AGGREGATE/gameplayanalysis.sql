@@ -4,4 +4,4 @@ FROM Activity A
 JOIN (
     SELECT player_id, MIN(event_date) as first_date FROM Activity GROUP BY player_id
 ) B 
-ON A.player_id = B.player_id WHERE A.event_date = B.first_date+1
+ON A.player_id = B.player_id WHERE A.event_date = DATE_ADD(B.first_date, INTERVAL 1 DAY)
